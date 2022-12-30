@@ -1,0 +1,1 @@
+document.querySelector("p").innerText = "Hello from code.js";

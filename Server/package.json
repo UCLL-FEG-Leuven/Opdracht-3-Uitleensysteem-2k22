@@ -1,0 +1,23 @@
+{
+  "name": "opdracht-3-uitleensysteem-2k22-server",
+  "version": "0.0.1",
+  "description": "Modeloplossing voor opdracht 3 'Uitleensysteem' (Server).",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "npm install & cross-env PORT=2022 nodemon"
+  },
+  "keywords": [
+    "UCLL",
+    "FEG"
+  ],
+  "author": "David Urting",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "nodemon": "^2.0.20"
+  }
+}

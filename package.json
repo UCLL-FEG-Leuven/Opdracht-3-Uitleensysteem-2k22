@@ -1,0 +1,14 @@
+{
+  "name": "opdracht-3-uitleensysteem-2k22",
+  "version": "0.0.1",
+  "description": "Modeloplossing voor opdracht 3 'Uitleensysteem'.",
+  "scripts": {
+    "start": "cd Server & npm run start"
+  },
+  "keywords": [
+    "UCLL",
+    "FEG"
+  ],
+  "author": "David Urting",
+  "license": "UNLICENSED"
+}
