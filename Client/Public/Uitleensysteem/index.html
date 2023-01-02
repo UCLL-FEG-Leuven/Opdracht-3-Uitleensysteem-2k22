@@ -5,10 +5,99 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Opdracht 3 - Uitleensysteem</title>
-    <script src="code.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" 
+        rel="stylesheet" 
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" 
+        crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" 
+        crossorigin="anonymous" 
+        defer></script>
+    <script src="js/code.js" type="module" defer></script>
 </head>
-<body>
-   <h1>Opdracht 3 - Uitleensysteem</h1>
-   <p></p>
+<body class="container">
+    <header>
+        <h1>Opdracht 3 - Uitleensysteem</h1>
+    </header>
+    <main>
+        <div class="row">
+            <section id="statistieken" class="col-8 bg-light p-3">
+                <form class="row">
+                    <fieldset disabled class="col-6">
+                        <label for="aantalBoeken" class="form-label">Aantal boeken</label>
+                        <input type="number" id="aantalBoeken" name="aantalBoeken" class="form-control">                        
+                        <label for="aantalLeden" class="form-label">Aantal leden</label>
+                        <input type="number" id="aantalLeden" name="aantalLeden" class="form-control">
+                    </fieldset>
+                    <fieldset disabled class="col-6">
+                        <label for="aantalOntleendeExemplaren" class="form-label">Aantal ontleende exemplaren</label>
+                        <input type="number" id="aantalOntleendeExemplaren" name="aantalOntleendeExemplaren" class="form-control">
+                        <label for="aantalLaattijdigeExemplaren" class="form-label">Aantal laattijdige exemplaren</label>
+                        <input type="number" id="aantalLaattijdigeExemplaren" name="aantalLaattijdigeExemplaren" class="form-control">
+                    </fieldset>
+                </form>
+            </section>
+            <div id="logo" class="col-4 text-center">
+                <img src="img/library.png" width="268" height="186" title="Logo van het uitleensysteem">
+            </div>            
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <section id="boeken">
+                    <h2>Boeken</h1>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ISBN</th>
+                                <th>Uitgever</th>
+                                <th>Auteur</th>
+                                <th>Titel</th>
+                                <th># exemplaren</th>
+                                <th># exemplaren ontleend</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dit wordt dynamisch opgevuld. -->
+                        </tbody>
+                    </table>
+                </section>
+                <section id="leden">
+                    <h2>Leden</h1>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Lidnummer</th>
+                                <th>Naam</th>
+                                <th>Voornaam</th>
+                                <th>Email</th>
+                                <th># exemplaren ontleend</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dit wordt dynamisch opgevuld. -->
+                        </tbody>
+                    </table>
+                </section>    
+            </div>
+            <section id="ontlenenTerugbrengen" class="col">
+                <h2>Ontlenen/terugbrengen</h1>
+                <form>
+                    <fieldset>
+                        <label for="isbn" class="form-label">ISBN</label>
+                        <input type="text" id="isbn" name="isbn" class="form-control">
+                        <label for="examemplaarnummer" class="form-label">Exemplaarnummer</label>
+                        <input type="number" id="examemplaarnummer" name="examemplaarnummer" min="1" class="form-control">
+                        <label for="lidnummer" class="form-label">Lidnummer</label>
+                        <input type="text" id="lidnummer" name="lidnummer" class="form-control">    
+                    </fieldset>
+                    <fieldset class="btn-group mt-3">
+                        <button id="ontlenenBtn" class="btn btn-primary btn-default">Ontlenen</button>
+                        <button id="terugbrengenBtn" class="btn btn-primary btn-default">Terugbrengen</button>    
+                    </fieldset>
+                </form>
+                <p id="boete" style="visibility: hidden"></p>
+            </section>    
+        </div>
+    </main>
 </body>
 </html>
