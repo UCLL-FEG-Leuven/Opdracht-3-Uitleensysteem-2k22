@@ -15,7 +15,7 @@ export default class Boek {
     }
 
     get auteur() {
-        return this._uiteur;
+        return this._auteur;
     }
 
     get titel() {
@@ -23,6 +23,14 @@ export default class Boek {
     }
 
     render(tbody) {
-        // TODO
+        tbody.insertAdjacentHTML("beforeend", 
+        `<tr>
+            <td>${this.isbn}</td>
+            <td>${this.uitgever}</td>
+            <td>${this.auteur}</td>
+            <td>${this.titel}</td>
+            <td>TODO</td>
+            <td>TODO</td>
+         </tr>`);
     }
 }

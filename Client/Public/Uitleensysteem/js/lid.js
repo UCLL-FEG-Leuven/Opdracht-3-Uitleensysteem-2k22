@@ -23,6 +23,13 @@ export default class Lid {
     }
 
     render(tbody) {
-        // TODO
+        tbody.insertAdjacentHTML("beforeend", 
+        `<tr>
+            <td>${this.lidnummer}</td>
+            <td>${this.naam}</td>
+            <td>${this.voornaam}</td>
+            <td>${this.email}</td>
+            <td>TODO</td>
+         </tr>`);
     }
 }
