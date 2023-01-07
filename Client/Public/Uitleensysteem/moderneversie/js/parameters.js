@@ -1,1 +1,0 @@
-export const BASE_URL = "https://uitleensysteem.azurewebsites.net/api/u0032465";
