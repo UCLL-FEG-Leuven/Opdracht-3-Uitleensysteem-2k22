@@ -1,10 +1,12 @@
+import ActiveComponent from "./active-component.js";
 import Lid from "./lid.js";
 import { BASE_URL } from "./parameters.js";
 
 const tbody = document.querySelector("#leden tbody");
 
-export default class Ledenlijst {
-    constructor(rapporteerFoutCallback) {
+export default class Ledenlijst extends ActiveComponent {
+    constructor(rapporteerFoutCallback) { 
+        super();       
         this._rapporteerFoutCallback = rapporteerFoutCallback;
     }
 
@@ -18,7 +20,11 @@ export default class Ledenlijst {
         aantalOntleendeExemplarenTd.innerText = parseInt(aantalOntleendeExemplarenTd.innerText) - 1;
     }
 
-    async render() {  
+    async refresh() {
+        await this.render();        
+    }
+
+    async render() {          
         try {
             let response = await fetch(`${BASE_URL}/leden`);
             if (response.ok) {

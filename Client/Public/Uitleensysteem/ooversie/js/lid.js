@@ -29,7 +29,7 @@ export default class Lid {
 
     render(tbody) {
         tbody.insertAdjacentHTML("beforeend", 
-        `<tr id="lid-${this.lidnummer}">
+        `<tr id="lid-${this.lidnummer}" class="${(this._ontleendeExemplaren.filter(e => new Date(e.datumTerug) < new Date()).length > 0 ? 'bg-danger' : '')}">
             <td>${this.lidnummer}</td>
             <td>${this.naam}</td>
             <td>${this.voornaam}</td>

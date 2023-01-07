@@ -24,11 +24,29 @@ export default class OntlenenTerugbrengen {
                 this._clearBoete();
                 
                 let response = await fetch(`${BASE_URL}/ontleen`, this._createPostRequestObject());
+
+                // Is de statuscode succesvol?
                 if (response.ok) {
-                    this._statistieken.boekOntleend();
-                    this._boekenlijst.boekOntleend(isbnInput.value);
-                    this._ledenlijst.boekOntleend(lidnummerInput.value);
-        
+                    // Zijn de componenten aan het refreshen?
+                    // Ja? Dan is er geen garantie of deze ontlening al ontvangen werd door de backend en of deze al dan niet meegestuurd wordt met de refresh.
+                    // Vandaar doen we terug een refresh. Zo zijn we zeker dat het scherm de juiste data toont.
+                    // Neen? Dan kunnen we de DOM aanpassen en zijn we zeker dat de DOM van de browsers ook de situatie voorstelt van de backend.
+                    if (this._statistieken.refreshing) {
+                        this._statistieken.refresh();
+                    } else {
+                        this._statistieken.boekOntleend();
+                    }
+                    if (this._boekenlijst.refreshing) {
+                        this._boekenlijst.refresh();
+                    } else {
+                        this._boekenlijst.boekOntleend(isbnInput.value);
+                    }
+                    if (this._ledenlijst.refreshing) {
+                        this._ledenlijst.refresh();
+                    } else {
+                        this._ledenlijst.boekOntleend(lidnummerInput.value);
+                    }
+                                                
                     this._clearInputs();        
                 } else {
                     throw await response.text();
@@ -44,6 +62,8 @@ export default class OntlenenTerugbrengen {
                 this._clearBoete();
     
                 let response = await fetch(`${BASE_URL}/brengterug`, this._createPostRequestObject());
+
+                // Is de statuscode succesvol?
                 if (response.ok) {
                     let boeteObject = await response.json();
                     if (boeteObject.boete) {
@@ -54,10 +74,26 @@ export default class OntlenenTerugbrengen {
                         boeteParagraph.innerText = "";
                     }
         
-                    this._statistieken.boekTeruggebracht(boeteObject.boete);
-                    this._boekenlijst.boekTeruggebracht(isbnInput.value);
-                    this._ledenlijst.boekTeruggebracht(lidnummerInput.value);
-          
+                    // Zijn de componenten aan het refreshen?
+                    // Ja? Dan is er geen garantie of deze terugbrening al ontvangen werd door de backend en of deze al dan niet meegestuurd wordt met de refresh.
+                    // Vandaar doen we terug een refresh. Zo zijn we zeker dat het scherm de juiste data toont.
+                    // Neen? Dan kunnen we de DOM aanpassen en zijn we zeker dat de DOM van de browsers ook de situatie voorstelt van de backend.
+                    if (this._statistieken.refreshing) {
+                        this._statistieken.refresh();
+                    } else {
+                        this._statistieken.boekTeruggebracht(boeteObject.boete);
+                    }
+                    if (this._boekenlijst.refreshing) {
+                        this._boekenlijst.refresh();
+                    } else {
+                        this._boekenlijst.boekTeruggebracht(isbnInput.value);
+                    }
+                    if (this._ledenlijst.refreshing) {
+                        this._ledenlijst.refresh();
+                    } else {
+                        this._ledenlijst.boekTeruggebracht(lidnummerInput.value);
+                    }
+                                              
                     this._clearInputs();        
                 } else {
                     throw await response.text();

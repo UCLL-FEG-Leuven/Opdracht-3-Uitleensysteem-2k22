@@ -55,7 +55,7 @@ const getLeden = async () => {
         ledenTbody.innerHTML = "";
         leden.forEach(lid => {
             ledenTbody.innerHTML += 
-            `<tr>
+            `<tr class="${(lid.ontleendeExemplaren.filter(e => new Date(e.datumTerug) < new Date()).length > 0 ? 'bg-danger' : '')}">
                 <td>${lid.lidnummer}</td>
                 <td>${lid.naam}</td>
                 <td>${lid.voornaam}</td>
