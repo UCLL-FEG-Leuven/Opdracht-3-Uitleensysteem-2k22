@@ -22,13 +22,11 @@ export default class Statistieken extends ActiveComponent {
             aantalLaattijdigeExemplarenInput.value = parseInt(aantalLaattijdigeExemplarenInput.value) - 1;
         }
     }
-
-    async refresh() {
-        await this.render();        
-    }
-
+    
     async render() {
         try {
+            super.rendering = true;
+
             let response = await fetch(`${BASE_URL}/stats`);
             if (response.ok) {
                 let stats = await response.json();
@@ -42,6 +40,8 @@ export default class Statistieken extends ActiveComponent {
             }
         } catch (ex) {
             this._rapporteerFoutCallback(ex);
+        } finally {
+            super.rendering = false;
         }
     }
 }

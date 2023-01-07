@@ -4,16 +4,18 @@ import { REFRESH_INTERVAL_MSEC } from "./parameters.js";
 export default class ActiveComponent {
     constructor() {
         setInterval(() => {
-            this._refreshing = true;
             this.refresh();
-            this._refreshing = false;
         }, REFRESH_INTERVAL_MSEC);
     }
 
-    get refreshing() {
-        return this._refreshing;
+    get rendering() {
+        return this._rendering;
     }
 
-    async refresh() {         
+    set rendering(value) {
+        this._rendering = value;
+    }
+
+    async render() {         
     }
 }

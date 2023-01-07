@@ -31,18 +31,18 @@ export default class OntlenenTerugbrengen {
                     // Ja? Dan is er geen garantie of deze ontlening al ontvangen werd door de backend en of deze al dan niet meegestuurd wordt met de refresh.
                     // Vandaar doen we terug een refresh. Zo zijn we zeker dat het scherm de juiste data toont.
                     // Neen? Dan kunnen we de DOM aanpassen en zijn we zeker dat de DOM van de browsers ook de situatie voorstelt van de backend.
-                    if (this._statistieken.refreshing) {
-                        this._statistieken.refresh();
+                    if (this._statistieken.rendering) {
+                        this._statistieken.render();
                     } else {
                         this._statistieken.boekOntleend();
                     }
-                    if (this._boekenlijst.refreshing) {
-                        this._boekenlijst.refresh();
+                    if (this._boekenlijst.rendering) {
+                        this._boekenlijst.render();
                     } else {
                         this._boekenlijst.boekOntleend(isbnInput.value);
                     }
-                    if (this._ledenlijst.refreshing) {
-                        this._ledenlijst.refresh();
+                    if (this._ledenlijst.rendering) {
+                        this._ledenlijst.render();
                     } else {
                         this._ledenlijst.boekOntleend(lidnummerInput.value);
                     }
@@ -78,18 +78,18 @@ export default class OntlenenTerugbrengen {
                     // Ja? Dan is er geen garantie of deze terugbrening al ontvangen werd door de backend en of deze al dan niet meegestuurd wordt met de refresh.
                     // Vandaar doen we terug een refresh. Zo zijn we zeker dat het scherm de juiste data toont.
                     // Neen? Dan kunnen we de DOM aanpassen en zijn we zeker dat de DOM van de browsers ook de situatie voorstelt van de backend.
-                    if (this._statistieken.refreshing) {
-                        this._statistieken.refresh();
+                    if (this._statistieken.rendering) {
+                        this._statistieken.render();
                     } else {
                         this._statistieken.boekTeruggebracht(boeteObject.boete);
                     }
-                    if (this._boekenlijst.refreshing) {
-                        this._boekenlijst.refresh();
+                    if (this._boekenlijst.rendering) {
+                        this._boekenlijst.render();
                     } else {
                         this._boekenlijst.boekTeruggebracht(isbnInput.value);
                     }
-                    if (this._ledenlijst.refreshing) {
-                        this._ledenlijst.refresh();
+                    if (this._ledenlijst.rendering) {
+                        this._ledenlijst.render();
                     } else {
                         this._ledenlijst.boekTeruggebracht(lidnummerInput.value);
                     }

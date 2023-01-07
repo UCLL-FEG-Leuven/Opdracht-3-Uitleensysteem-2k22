@@ -20,12 +20,10 @@ export default class Boekenlijst extends ActiveComponent {
         aantalOntleendeExemplarenTd.innerText = parseInt(aantalOntleendeExemplarenTd.innerText) - 1;
     }
 
-    async refresh() {
-        await this.render();        
-    }
-
     async render() {
         try  {
+            super.rendering = true;
+
             let response = await fetch(`${BASE_URL}/boeken`);
             if (response.ok) {
                 let boekenNoClass = await response.json();
@@ -40,6 +38,8 @@ export default class Boekenlijst extends ActiveComponent {
             }
         } catch (ex) {
             this._rapporteerFoutCallback(ex);
+        } finally {
+            super.rendering = false;
         }
     }
 }
