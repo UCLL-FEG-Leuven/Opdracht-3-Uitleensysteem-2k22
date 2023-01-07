@@ -1,9 +1,10 @@
 export default class Lid {
-    constructor(lidnummer, naam, voornaam, email) {
+    constructor(lidnummer, naam, voornaam, email, ontleendeExemplaren) {
         this._lidnummer = lidnummer;
         this._naam = naam;
         this._voornaam = voornaam;
         this._email = email;
+        this._ontleendeExemplaren = ontleendeExemplaren;
     }
 
     get lidnummer() {
@@ -22,14 +23,18 @@ export default class Lid {
         return this._email;
     }
 
+    get aantalOntleendeExemplaren() {
+        return this._ontleendeExemplaren.length;
+    }
+
     render(tbody) {
         tbody.insertAdjacentHTML("beforeend", 
-        `<tr>
+        `<tr id="lid-${this.lidnummer}">
             <td>${this.lidnummer}</td>
             <td>${this.naam}</td>
             <td>${this.voornaam}</td>
-            <td>${this.email}</td>
-            <td>TODO</td>
+            <td><a href="mailto:${this.email}">${this.email}</a></td>
+            <td>${this.aantalOntleendeExemplaren}</td>
          </tr>`);
     }
 }

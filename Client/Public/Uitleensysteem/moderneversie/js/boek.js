@@ -1,9 +1,10 @@
 export default class Boek {
-    constructor(isbn, uitgever, auteur, titel) {        
+    constructor(isbn, uitgever, auteur, titel, exemplaren) {        
         this._isbn = isbn;
         this._uitgever = uitgever;
         this._auteur = auteur;
         this._titel = titel;
+        this._exemplaren = exemplaren;
     }
 
     get isbn() {
@@ -19,18 +20,26 @@ export default class Boek {
     }
 
     get titel() {
-        return this._isbn;
+        return this._titel;
+    }
+
+    get aantalExemplaren() {
+        return this._exemplaren.length;
+    }
+
+    get aantalExemplarenOntleend() {
+        return this._exemplaren.filter(e => e.ontleend).length;
     }
 
     render(tbody) {
         tbody.insertAdjacentHTML("beforeend", 
-        `<tr>
+        `<tr id="boek-${this.isbn}">
             <td>${this.isbn}</td>
             <td>${this.uitgever}</td>
             <td>${this.auteur}</td>
             <td>${this.titel}</td>
-            <td>TODO</td>
-            <td>TODO</td>
+            <td>${this.aantalExemplaren}</td>
+            <td>${this.aantalExemplarenOntleend}</td>
          </tr>`);
     }
 }

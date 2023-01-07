@@ -1,4 +1,4 @@
-import { BASE_URL, INTERVAL_IN_MSEC } from "./parameters.js";
+import { BASE_URL } from "./parameters.js";
 
 const aantalBoekenInput = document.getElementById("aantalBoeken");
 const aantalLedenInput = document.getElementById("aantalLeden");
@@ -7,9 +7,17 @@ const aantalLaattijdigeExemplarenInput = document.getElementById("aantalLaattijd
 
 export default class Statistieken {
     constructor() {
-        setInterval(async () => {
-            await this.render();
-        }, INTERVAL_IN_MSEC);
+    }
+
+    boekOntleend() {        
+        aantalOntleendeExemplarenInput.vaue = parseInt(aantalOntleendeExemplarenInput.value) + 1;
+    }
+
+    boekTeruggebracht(teLaat) {
+        aantalOntleendeExemplarenInput.vaue = parseInt(aantalOntleendeExemplarenInput.value) - 1;
+        if (teLaat) {
+            aantalLaattijdigeExemplarenInput.value = parseInt(aantalLaattijdigeExemplarenInput.value) - 1;
+        }
     }
 
     async render() {
