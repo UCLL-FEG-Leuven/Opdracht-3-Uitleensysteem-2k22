@@ -5,9 +5,9 @@ import { BASE_URL } from "./parameters.js";
 const tbody = document.querySelector("#leden tbody");
 
 export default class Ledenlijst extends ActiveComponent {
-    constructor(rapporteerFoutCallback) { 
+    constructor(notificaties) { 
         super();       
-        this._rapporteerFoutCallback = rapporteerFoutCallback;
+        this._notificaties = notificaties;
     }
 
     boekOntleend(lidnummer) {
@@ -37,7 +37,7 @@ export default class Ledenlijst extends ActiveComponent {
                 throw await response.text();
             }
         } catch (ex) {
-            this._rapporteerFoutCallback(ex);            
+            this._notificaties.showErrorMessage(ex);            
         } finally {
             super.rendering = false;
         }

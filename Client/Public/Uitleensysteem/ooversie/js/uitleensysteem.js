@@ -1,38 +1,31 @@
-import {SHOW_ERROR_MSG_MSEC} from "./parameters.js";
 
 import Boekenlijst from "./boekenlijst.js";
 import Ledenlijst from "./ledenlijst.js";
+import Notificaties from "./notificaties.js";
 import OntlenenTerugbrengen from "./ontlenen-terugbrengen.js";
 import Statistieken from "./statistieken.js";
 
-// Function die door de objecten kan gebruikt worden om te rapporteren dat er een fout is opgetreden.
-const errorParagraph = document.getElementById("error");
-const rapporteerFout = (foutmelding) => {
-    errorParagraph.innerText = foutmelding;
-    errorParagraph.style.visibility = "unset";
+// Via het notificaties object kunnen andere objecten boodschappen aan de bibliothecaris geven.
+const notificaties = new Notificaties();
 
-    // Fouten bijven x seconden staan
-    setTimeout(() => {
-        errorParagraph.innerText = "";
-        errorParagraph.style.visibility = "hidden";
-    }, SHOW_ERROR_MSG_MSEC);    
-}
+// Aangeven dat de gevens zullen worden geladen
+notificaties.showInfoMessage("Gegevens worden geladen...");
 
 // Aanmaken van het statistieken overzicht object.
 // Dit object zal zichzelf bijwerken om de x seconden.
-const statistieken = new Statistieken(rapporteerFout);
+const statistieken = new Statistieken(notificaties);
 statistieken.render();
 
 // Aanmaken van het boekenlijst object.
 // Dit object zal zichzelf bijwerken om de x seconden.
-const boekenlijst = new Boekenlijst(rapporteerFout);
+const boekenlijst = new Boekenlijst(notificaties);
 boekenlijst.render();
 
 // Aanmaken van het ledelijst object.
 // Dit object zal zichzelf bijwerken om de x seconden.
-const ledenlijst = new Ledenlijst(rapporteerFout);
+const ledenlijst = new Ledenlijst(notificaties);
 ledenlijst.render();
 
 // Aanmaken van het ontlenen-terugbrengen object.
-const ontlenenTerugbrengen = new OntlenenTerugbrengen(rapporteerFout, statistieken, boekenlijst, ledenlijst);
+const ontlenenTerugbrengen = new OntlenenTerugbrengen(notificaties, statistieken, boekenlijst, ledenlijst);
 ontlenenTerugbrengen.render();

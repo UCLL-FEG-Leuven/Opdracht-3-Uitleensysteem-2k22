@@ -5,9 +5,9 @@ import { BASE_URL } from "./parameters.js";
 const tbody = document.querySelector("#boeken tbody");
 
 export default class Boekenlijst extends ActiveComponent {
-    constructor(rapporteerFoutCallback) {
+    constructor(notificaties) {
         super();
-        this._rapporteerFoutCallback = rapporteerFoutCallback;
+        this._notificaties = notificaties;
     }
 
     boekOntleend(isbn) {
@@ -37,7 +37,7 @@ export default class Boekenlijst extends ActiveComponent {
                 throw await response.text();
             }
         } catch (ex) {
-            this._rapporteerFoutCallback(ex);
+            this._notificaties.showErrorMessage(ex);
         } finally {
             super.rendering = false;
         }

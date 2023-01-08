@@ -4,7 +4,7 @@ import { REFRESH_INTERVAL_MSEC } from "./parameters.js";
 export default class ActiveComponent {
     constructor() {
         setInterval(() => {
-            this.refresh();
+            this.render();
         }, REFRESH_INTERVAL_MSEC);
     }
 

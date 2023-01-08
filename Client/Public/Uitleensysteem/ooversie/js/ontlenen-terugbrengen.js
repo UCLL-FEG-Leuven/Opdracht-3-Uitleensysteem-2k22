@@ -10,8 +10,9 @@ const terugbrengenBtn = document.getElementById("terugbrengenBtn");
 const boeteParagraph = document.getElementById("boete");
 
 export default class OntlenenTerugbrengen {
-    constructor(rapporteerFoutCallback, statistieken, boekenlijst, ledenlijst) {
-        this._rapporteerFoutCallback = rapporteerFoutCallback;
+    constructor(notificaties, statistieken, boekenlijst, ledenlijst) {
+        this._notificaties = notificaties;
+
         this._statistieken = statistieken;
         this._boekenlijst = boekenlijst;
         this._ledenlijst = ledenlijst;        
@@ -21,6 +22,8 @@ export default class OntlenenTerugbrengen {
         ontlenenBtn.addEventListener("click", async (e) => {
             try {
                 e.preventDefault();
+                this._notificaties.showInfoMessage("Registratie bezig...");
+
                 this._clearBoete();
                 
                 let response = await fetch(`${BASE_URL}/ontleen`, this._createPostRequestObject());
@@ -28,37 +31,41 @@ export default class OntlenenTerugbrengen {
                 // Is de statuscode succesvol?
                 if (response.ok) {
                     // Zijn de componenten aan het refreshen?
-                    // Ja? Dan is er geen garantie of deze ontlening al ontvangen werd door de backend en of deze al dan niet meegestuurd wordt met de refresh.
+                    // Ja? Dan is er geen garantie of deze ontlening al dan niet meegestuurd wordt met de refresh die bezig is.
                     // Vandaar doen we terug een refresh. Zo zijn we zeker dat het scherm de juiste data toont.
-                    // Neen? Dan kunnen we de DOM aanpassen en zijn we zeker dat de DOM van de browsers ook de situatie voorstelt van de backend.
+                    // Neen? Dan kunnen we de DOM aanpassen en zijn we zeker dat de DOM van de browsers ook de situatie voorstelt die door de backend gekend is.
                     if (this._statistieken.rendering) {
-                        this._statistieken.render();
+                        await this._statistieken.render();
                     } else {
                         this._statistieken.boekOntleend();
                     }
                     if (this._boekenlijst.rendering) {
-                        this._boekenlijst.render();
+                        await this._boekenlijst.render();
                     } else {
                         this._boekenlijst.boekOntleend(isbnInput.value);
                     }
                     if (this._ledenlijst.rendering) {
-                        this._ledenlijst.render();
+                        await this._ledenlijst.render();
                     } else {
                         this._ledenlijst.boekOntleend(lidnummerInput.value);
                     }
                                                 
-                    this._clearInputs();        
+                    this._clearInputs();
+
+                    this._notificaties.showSuccessMessage("Ontleend exemplaar werd geregistreerd.");
                 } else {
                     throw await response.text();
                 }
             } catch (ex) {
-                this._rapporteerFoutCallback(ex);
+                this._notificaties.showErrorMessage(ex);
             }
         });
 
         terugbrengenBtn.addEventListener("click", async (e) => {
             try {
                 e.preventDefault(); 
+                this._notificaties.showInfoMessage("Registratie bezig...");
+
                 this._clearBoete();
     
                 let response = await fetch(`${BASE_URL}/brengterug`, this._createPostRequestObject());
@@ -75,31 +82,32 @@ export default class OntlenenTerugbrengen {
                     }
         
                     // Zijn de componenten aan het refreshen?
-                    // Ja? Dan is er geen garantie of deze terugbrening al ontvangen werd door de backend en of deze al dan niet meegestuurd wordt met de refresh.
+                    // Ja? Dan is er geen garantie of deze terugbrening al dan niet meegestuurd wordt met de refresh die bezig is.
                     // Vandaar doen we terug een refresh. Zo zijn we zeker dat het scherm de juiste data toont.
-                    // Neen? Dan kunnen we de DOM aanpassen en zijn we zeker dat de DOM van de browsers ook de situatie voorstelt van de backend.
+                    // Neen? Dan kunnen we de DOM aanpassen en zijn we zeker dat de DOM van de browsers ook de situatie voorstelt die door de backend gekend is.
                     if (this._statistieken.rendering) {
-                        this._statistieken.render();
+                        await this._statistieken.render();
                     } else {
                         this._statistieken.boekTeruggebracht(boeteObject.boete);
                     }
                     if (this._boekenlijst.rendering) {
-                        this._boekenlijst.render();
+                        await this._boekenlijst.render();
                     } else {
                         this._boekenlijst.boekTeruggebracht(isbnInput.value);
                     }
                     if (this._ledenlijst.rendering) {
-                        this._ledenlijst.render();
+                        await this._ledenlijst.render();
                     } else {
                         this._ledenlijst.boekTeruggebracht(lidnummerInput.value);
                     }
                                               
-                    this._clearInputs();        
+                    this._clearInputs(); 
+                    this._notificaties.showSuccessMessage("Teruggebracht exemplaar werd geregistreerd.");
                 } else {
                     throw await response.text();
                 }
             } catch (ex) {
-                this._rapporteerFoutCallback(ex);
+                this._notificaties.showErrorMessage(ex);
             }
          }); 
     }
