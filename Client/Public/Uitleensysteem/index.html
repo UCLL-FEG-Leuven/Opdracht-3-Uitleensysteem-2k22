@@ -4,23 +4,104 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Uitleensysteem - 2 versies</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" 
+        rel="stylesheet" 
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" 
+        crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" 
+        crossorigin="anonymous" 
+        defer></script>
 </head>
-<body>
-    <h1>Uitleensysteem</h1>
+<body class="container">
+    <h1>Uitleensysteem - 2 versies</h1>
     <ul>
-        <li>
+        <li class="mt-4">
             <a href="./basisversie/index.html">Basisversie</a>
-            <p>De basisversie is functioneel volledig en werd volledig uitgewerkt op basis van functions (= procedureel).
-            Deze werkwijze is geschikt voor kleinere projecten.
+            <p>
+            De basisversie is functioneel volledig en werd uitgewerkt op basis van traditionele JavaScript functions.
+            Deze klassieke <strong>procedurele</strong> werkwijze is geschikt voor kleinere projecten.
             </p>
+            <ol>
+                <li>
+                Alle functionaliteit werd voorzien in één JavaScript bestand. Als het bestand groot zou worden is het een goed idee om op te splitsen. Dat hebben wij niet gedaan wegens de relatief beperkte code.
+                <br>
+                Tip: als je gebruik maakt van de OO werkwijze is de regel: 1 class = 1 bestand en splits je dus automatisch op in meerdere bestanden.
+                </li>
+                <li>
+                De frontend bevat weinig eigen logica: alle verantwoordelijkheid ligt bij de backend. Vandaar werd er een vrij korte refresh periode van 5 seconden ingesteld.
+                Zo kan je het resultaat van het ontlenen/terugbrengen vrij snel zien. 'Vrij snel' is natuurlijk relatief: in het slechtste geval moet je 5 seconden wachten vooraleer je de nieuwe resultaten ziet.
+                Als techniek voor het refreshen werd gebruik gemaakt van <code>setInterval()</code>.
+                </li>
+                <li>
+                Door het gebruik van een korte refresh periode is de belasting voor de backend vrij zwaar.
+                Elke 5 seconden worden er namelijk 3 GET requests uitgestuurd (ophalen van statistieken, boeken en leden). 
+                Dat komt neer op 36 requests per minuut vanuit één browser.
+                Als we 100 bibliothecarissen zouden hebben die hiervan gebruik maken komt dat neer op 3600 requests per minuut!
+                </li>
+                <li>
+                Voor het uitvoeren van de GET en POST requests werd gebruik gemaakt van de <code>fetch</code> API in combinatie met <code>async/await</code>.
+                <br>
+                Er werd wel een <code>try-catch</code> voorzien voor ongeplande fouten (vb. geen netwerk), maar er is geen specifieke controle op HTTP status codes (vb. bad requests in de range 400-499).
+                Dat betekent dat deze versie ook niet supergebruiksvriendelijk is: als een gebruiker een verkeerde waarde intikt valt dat niet op.
+                </li>
+            </ol>
         </li>
-        <li>
-            <a href="./ooversie/index.html">OO versie</a>
-            <p>De OO versie werd uitgewerkt aan de hand van de classes (en van daaruit aangemaakte objecten) die elkaar aanroepen. 
-            Voor elk van de visuele delen werd een class voorzien.
-            Deze werkwijze ligt in lijn met modernere frontends (Angular, Vue, React) en is geschikt voor (middel)grote projecten.
+        <li class="mt-4">
+            <a href="./ooversie/index.html">Modernere OO versie</a>
+            <p>
+            De OO versie werd uitgewerkt aan de hand van classes, en van daaruit aangemaakte objecten die elkaar aanroepen. 
+            Deze <strong>object-georiënteerde</strong> werkwijze ligt in lijn met modernere frontends (Angular, Vue, React) en is geschikt voor middelgrote tot grote projecten.
             </p>
+            <ol>
+                <li>Deze implementatie maakt uitgebreid gebruik van <strong>ES6 classes</strong>. Bepaalde classes maken ook gebruik van overervering.</li>
+                <li>Deze implementatie maakt uitgebreid gebruik van <strong>ES6 modules</strong> (export/import). 
+                    <br>
+                    Bemerk dat er een attribuut type="module" werd gezet op de <code>script</code> tag in ooversie/index.html. 
+                    Dit zorgt ervoor dat de browser het JavaScript bestand behandelt als een ES6 module en alle 'imports' afloopt en ook binnenhaalt.
+                    Je hoeft dus maar één script tag te voorzien (= het bestand dat als eerst moet geladen worden, nl. <code>uitleensysteem.js</code>).
+                </li>
+                <li>Het scherm bestaat uit een statistieken deel, een boekenlijst, een ledenlijst en een ontlenen-terugbrengen luik: voor elk van deze visuele componenten werd een class voorzien:
+                    <code>Statistieken</code>, <code>Boekenlijst</code>, <code>LedenLijst</code>, <code>OntlenenTerugbrengen</code>.
+                </li>
+                <li>De classes <code>Boekenlijst</code> en <code>Ledenlijst</code> tonen respectievelijk boeken en leden. 
+                    Hiervoor werden de <code>Boek</code> en <code>Lid</code> classes voorzien.
+                    <br>
+                    Deze classes hebben de traditionele properties (vb. isbn) maar ook <strong>berekende properties</strong>: dit zijn getters die een berekening doen (vb. de length van een array of een array filteren).
+                    <br>
+                    Verder is de <code>render</code> methode van deze classes ook effeciënter dan de basisversie door het gebruik van <code>insertAdjacentHTML()</code>.
+                </li>
+                <li>Er werd ook een <strong>notificaties</strong> deel voorzien met bijhorende <code>Notificaties</code> class: hiermee wordt er feedback gegeven aan de gebruiker (informatieve meldingen, fouten, ...).
+                    <br>
+                    Je hebt 4 types notificaties: informatief, succes, waarschuwing en fout. Een notificatie verdwijnt automatisch na een paar seconden.
+                </li>
+                <li>
+                    Al de bovenstaande classes hebben een visuele betekenis: deze hebben dus allemaal een <code>render</code> function.
+                    <br>
+                    Om het eenvoudig te houden werd de html markup van de statische componenten gewoon in het html bestand opgenomen waardoor de render methode minder werk heeft.
+                </li>
+                <li>Sommige classes (<code>Statistieken</code>, <code>Boekenlijst</code> en <code>Ledenlijst</code>) zijn <em>actief</em>: zij maken gebruik van setInterval om zichzelf periodiek bij te werken.
+                    De betrokken classes erven over van een <code>ActiveComponent</code> class die hiervoor instaat.
+                </li>
+                <li>De refresh periode werd op een ruime 1 minuut gezet. In deze implementatie werd dan ook de nodige functionaliteit voorzien om de DOM dynamisch bij te werken zodat het refresh interval ruim kon ingesteld worden.
+                    Dit heeft wel wat implicaties op het vlak van asynchroniteit (vb. er is een refresh bezig van de statistieken terwijl er net een boek werd binnengebracht).
+                    De code houdt hier rekening mee (zie commentaar bij de <code>OntlenenTerugbrengen</code> class).
+                </li>
+                <li>Bovenstaande functionaliteit (= DOM dynamisch bijwerken) vereist ook dat er <code>id</code> attributen worden gezet op de gegenereerde <code>tr</code> rijen.
+                </li>
+                <li>Parameters (url, refresh periodes, ...) werden gedefinieerd als constanten in <code>parameters.js</code>.
+                    Dat maakt het makkelijk om snel, op één centrale plaats, een aanpassing door te voeren.</li>
+                <li>
+                    Voor het uitvoeren van de GET en POST requests werd evens gebruik gemaakt van de <code>fetch</code> API in combinatie met <code>async/await</code>.
+                    Als extra wordt er ook steeds gecontroleerd op de <code>ok</code> property van het <code>response</code> object.
+                    Die property is <code>true</code> als de de HTTP status code tussen 200 en 299 is (= success).
+                    Als die property <code>false</code> is, dan lezen we de body als tekst uit met <code>response.text()</code> en gooien we dat als exception op zodat die getoond wordt als een error in het notificaties deel.
+                </li>
+                <li>Omdat de objecten die terugkomen van een fetch call gewone object literals zijn (zonder class) moet deze omgevormd worden naar een object van de betrokken class. Hiervoor gebruiken we de constructor van de betrokken class.
+                    Bij arrays wordt gebruik gemaakt van de <code>map</code> methode: zo kan je een array van gewone objecten omvormen naar een array van objecten die afstammen van een bepaalde class.
+                </li>
+            </ol>
         </li>
     </ul>
 </body>
